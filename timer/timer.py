@@ -33,15 +33,14 @@ class Timer():
         # if has data
         if data:
             if data['TIMER_STATUS'] == False:
-                cur.execute(f"UPDATE TIMER SET END_TIME = null where name = '{name}'")
-                cur.execute(f"UPDATE TIMER SET TIMER_STATUS = True, START_TIME = '{datetime.now()}' where name='{name}'")
+                cur.execute(f"UPDATE TIMER SET TIMER_STATUS = True, START_TIME = '{datetime.now()}', END_TIME = null, UPDATE_DATE = '{ datetime.now() }' where name='{name}'")
                 self.con.commit()
                 print(f"Restart the timer {name}")
             else:
                 print(f"The timer {name} has been stared.")
         else:
             print(f"Adding a new timer: {name}")
-            cur.execute(f"INSERT INTO TIMER (NAME, START_TIME, MESSAGE, NO_OF_SECOND, TIMER_STATUS ) VALUES ( '{ name }', '{ datetime.now() }', '{msg}',0 ,True)")
+            cur.execute(f"INSERT INTO TIMER (NAME, START_TIME, MESSAGE, NO_OF_SECOND, TIMER_STATUS, CREATE_DATE ) VALUES ( '{ name }', '{ datetime.now() }', '{msg}',0 ,True, '{ datetime.now() }')")
             self.con.commit()
     
     def stop_timer(self, name):
