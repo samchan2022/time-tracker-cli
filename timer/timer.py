@@ -83,8 +83,6 @@ class Timer():
             msg = row['message']
             no_of_second = row['no_of_second']
             cal_sec = (e_time - s_time).total_seconds()
-            # print("---------------------------------------------------")
-            # print(cal_sec, no_of_second)
             d_diff = cal_sec + no_of_second
             d, h, m ,s = time_util.seconds_to_dhms(d_diff)
 
