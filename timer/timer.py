@@ -33,7 +33,12 @@ class Timer():
         # if has data
         if data:
             if data['TIMER_STATUS'] == False:
-                cur.execute(f"UPDATE TIMER SET TIMER_STATUS = True, START_TIME = '{datetime.now()}', END_TIME = null, UPDATE_DATE = '{ datetime.now() }' where name='{name}'")
+                # Accumulate the seconds when restart
+                # ---------------------------------------------------
+                s_time = datetime.strptime(data['START_TIME'] , config.DATE_FORMAT)
+                e_time = datetime.strptime(data['END_TIME'] , config.DATE_FORMAT)
+                no_of_second = data["NO_OF_SECOND"] + (e_time - s_time ).total_seconds()
+                cur.execute(f"UPDATE TIMER SET TIMER_STATUS = True, START_TIME = '{datetime.now()}', END_TIME = null, UPDATE_DATE = '{ datetime.now() }', NO_OF_SECOND = '{no_of_second}' where name='{name}'")
                 self.con.commit()
                 print(f"Restart the timer {name}")
             else:
@@ -50,11 +55,8 @@ class Timer():
         if data:
             if data['TIMER_STATUS'] == True:
                 print(f"Stopping timer: {name}")
-                s_time = datetime.strptime(data['START_TIME'] , config.DATE_FORMAT)
                 now = datetime.now()
-                # Accumulate the no of second
-                no_of_second = data["NO_OF_SECOND"] + (now - s_time ).total_seconds()
-                cur.execute(f"UPDATE TIMER SET TIMER_STATUS = False, END_TIME = '{datetime.now()}', NO_OF_SECOND = {no_of_second} where name='{name}'")
+                cur.execute(f"UPDATE TIMER SET TIMER_STATUS = False, END_TIME = '{now}' where name='{name}'")
                 self.con.commit()
             else:
                 print(f"Timer {name} has already been stopped.")
@@ -80,10 +82,13 @@ class Timer():
             name = row['name']
             msg = row['message']
             no_of_second = row['no_of_second']
-            d_diff = (e_time - s_time).total_seconds() + no_of_second
+            cal_sec = (e_time - s_time).total_seconds()
+            # print("---------------------------------------------------")
+            # print(cal_sec, no_of_second)
+            d_diff = cal_sec + no_of_second
             d, h, m ,s = time_util.seconds_to_dhms(d_diff)
 
-            details = f"{name}: {d:.0f}day {h:.0f}hour {m:.0f}min {s:.0f}sec" 
+            details = f"{name}: {d:.2f}day {h:.2f}hour {m:.2f}min {s:.2f}sec" 
             if not (msg == None or msg == "None"):
                 details = details + " " + msg
 

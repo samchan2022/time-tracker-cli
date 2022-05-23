@@ -52,11 +52,14 @@ def main():
             timer.start_timer(args.name, args.message)
         else:
             parser.print_help()
+
+        timer.get_all_timers()
     elif args.stop == True:
         if args.name != None:
             timer.stop_timer(args.name)
         else:
             parser.print_help()
+        timer.get_all_timers()
     elif args.delete == True:
         if args.name != None:
             timer.delete_timer(args.name)
