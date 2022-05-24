@@ -100,10 +100,10 @@ Test
 Test cases
 
 1. Start the timer, w and  w/o an optional description/message
-- Stop the timer 
-- Update the message
-- Delete the timer
-- List all timers
+2. Stop the timer 
+3. Update the message
+4. Delete the timer
+5. List all timers
 
 
 
@@ -143,7 +143,8 @@ Result
 Test Case2 - stop the timer
 ___________________________________________________
 
-1. Stop the timer 
+
+1.Stop the timer 
 
 
     python3 timer_cli.py --name test1 --stop
@@ -176,7 +177,7 @@ Result
 Test Case3 - Update the message
 ___________________________________________________
 
-1. Update the message
+1.Update the message
 
 
     python3 timer_cli.py --name test1 --message "My new message"
@@ -197,8 +198,7 @@ Result
 Test Case4 - Delete the timer
 ___________________________________________________
 
-1. Delete the timer 
-
+1.Delete the timer 
 
     python3 timer_cli.py --name test1 --delete
 
@@ -216,7 +216,9 @@ Result
 Test Case5 - List all timers
 ___________________________________________________
 
-1. Create multiple timers
+
+1.Create multiple timers
+
 
 
     python3 timer_cli.py --name test1 --start --message "My first message"
